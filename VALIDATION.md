@@ -5,7 +5,7 @@
 3) Native callback forwards `detail` through unchanged.
 4) User IDs are case-preserved (no lowercasing in identity flow).
 5) Lock window is 300ms.
-6) Custom events route through one helper and forward correctly (no parallel event API path).
+6) Custom events must route through one helper only: `trackEvent -> braze.logCustomEvent` (no DemoBridge event forwarding, no parallel event API path).
 7) Browser fallback does not crash without bridge.
 8) Direct `window.DemoBridge` calls exist only in the single chosen bridge entry file.
 

@@ -2,8 +2,9 @@
 // Callers import { startWebSession, setUser, listenForNative } from this file.
 // Do not call DemoBridge.* elsewhere; keep changeUser routing single-threaded.
 //
-// AI/V0 hint: Keep braze.changeUser/openSession orchestration centralized in one wrapper.
-// Do not issue multiple bridge startSession calls for one identity action.
+// AI/V0 hint: braze.changeUser/openSession must be called only in the single setUser
+// callback path used by createSyncStateMachine. Do not call them directly from
+// providers/components/listeners. Do not issue multiple bridge startSession calls for one identity action.
 
 let warnedMissingBridge = false;
 

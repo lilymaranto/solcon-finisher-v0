@@ -22,6 +22,11 @@ Default output file mapping:
 - `sync_state_reference.js` -> `lib/sync-state.ts`
 - custom event helper -> `lib/track-event.ts`
 
+Execution rule for custom events:
+- Route all custom events through one `trackEvent(name, properties)` helper.
+- The helper must call `braze.logCustomEvent` only.
+- Do not add `DemoBridge.logEvent` or `DemoBridge.logCustomEvent` calls in app code.
+
 Must enforce:
 1) Use one bridge entrypoint file and one import path across the app (no mixed bridge modules), with native callback signature `changeUserFn(userId, detail)`.
 2) Use one sync-state writer for identity changes across the app, with one shared default user constant for first session + Braze init.
@@ -31,9 +36,10 @@ Must enforce:
 6) Dynamic config id.
 7) One custom-event helper only (no parallel provider/context event path).
 8) Use canonical event forwarding: `trackEvent -> braze.logCustomEvent` only.
-9) Keep identity ownership explicit: web-origin identity writes flow through one `setUser()` path only.
-10) Lock value must exactly match reference contract (300ms).
-11) `normalizeUserId` must exactly preserve case (`trim` only).
+9) Starter continuity rule remains in effect: no DemoBridge custom-event forwarding in finisher mode.
+10) Keep identity ownership explicit: web-origin identity writes flow through one `setUser()` path only.
+11) Lock value must exactly match reference contract (300ms).
+12) `normalizeUserId` must exactly preserve case (`trim` only).
 
 Identity write rule (hard-fail if violated):
 - All Braze identity writes (`braze.changeUser`, `braze.openSession`) and bridge identity writes must be owned by one path: the sync state machine `setUser` callback.

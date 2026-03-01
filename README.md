@@ -13,4 +13,4 @@ Use:
 
 Intent:
 - Patch only, no UX redesign.
-- Harden identity/session sync and event forwarding.
+- Harden identity/session sync only; keep custom events on Braze-only path (`trackEvent -> braze.logCustomEvent`).
